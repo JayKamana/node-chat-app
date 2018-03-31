@@ -48,12 +48,12 @@ describe('Users', () => {
 
   it('should find user', () => {
     let res = users.getUser(3);
-    expect(res[0].name).toBe('John');
+    expect(res.name).toBe('John');
   })
 
   it('should not find user', () => {
     let res = users.getUser(123);
-    expect(res).toEqual([]);
+    expect(res).toBeFalsy();
   })
 
   it('should return names for Angular class', () => {
