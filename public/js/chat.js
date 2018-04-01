@@ -1,14 +1,14 @@
-let socket = io();
+var socket = io();
 
 function scrollToBottom(){
-  let messages = $('#messages');
-  let newMessage = messages.children('li:last-child');
-  let newMessageHeight = newMessage.innerHeight();
-  let lastMessageHeight = newMessage.prev().innerHeight();
+  var messages = $('#messages');
+  var newMessage = messages.children('li:last-child');
+  var newMessageHeight = newMessage.innerHeight();
+  var lastMessageHeight = newMessage.prev().innerHeight();
 
-  let clientHeight = messages.prop('clientHeight');
-  let scrollTop = messages.prop('scrollTop');
-  let scrollHeight = messages.prop('scrollHeight');
+  var clientHeight = messages.prop('clientHeight');
+  var scrollTop = messages.prop('scrollTop');
+  var scrollHeight = messages.prop('scrollHeight');
 
   if (clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight){
     messages.scrollTop(scrollHeight);
@@ -16,14 +16,12 @@ function scrollToBottom(){
 }
 
 socket.on('connect', function() {
-  let params = jQuery.deparam(window.location.search);
+  var params = jQuery.deparam(window.location.search);
 
   socket.emit('join', params, function(err){
     if(err){
       alert(err);
       window.location.href = '/';
-    } else {
-      console.log('no error')
     }
   })
 })
@@ -33,7 +31,7 @@ socket.on('disconnect', function() {
 })
 
 socket.on('updateUserList', function(users){
-  let ol = $('<ol></lo>');
+  var ol = $('<ol></lo>');
 
   users.forEach(function(user){
     ol.append($('<li></li>').text(user));
@@ -45,9 +43,9 @@ socket.on('updateUserList', function(users){
 
 socket.on('newMessage', function (message) {
   
-  let formattedTime = moment(message.createdAt).format('h:mm a');
-  let template = $('#message-template').html();
-  let html = Mustache.render(template, {
+  var formattedTime = moment(message.createdAt).format('h:mm a');
+  var template = $('#message-template').html();
+  var html = Mustache.render(template, {
     text: message.text,
     from: message.from,
     createdAt: formattedTime
@@ -59,9 +57,9 @@ socket.on('newMessage', function (message) {
 
 socket.on('newLocationMessage', function (message){
 
-  let formattedTime = moment(message.createdAt).format('h:mm a');
-  let template = $('#location-message-template').html();
-  let html = Mustache.render(template, {
+  var formattedTime = moment(message.createdAt).format('h:mm a');
+  var template = $('#location-message-template').html();
+  var html = Mustache.render(template, {
     from: message.from,
     url: message.url,
     createdAt: formattedTime
@@ -74,7 +72,7 @@ socket.on('newLocationMessage', function (message){
 $('#message-form').on('submit', function(e) {
   e.preventDefault();
 
-  let messageTextbox = $('[name=message]')
+  var messageTextbox = $('[name=message]')
 
   socket.emit('createMessage', {
     text: messageTextbox.val()
@@ -83,7 +81,7 @@ $('#message-form').on('submit', function(e) {
   })
 })
 
-let locationButton = $('#send-location');
+var locationButton = $('#send-location');
 
 locationButton.on('click', function(e){
   if(!navigator.geolocation){
